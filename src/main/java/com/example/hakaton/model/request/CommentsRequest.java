@@ -1,6 +1,5 @@
 package com.example.hakaton.model.request;
 
-import com.example.hakaton.entity.Petitions;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,6 +10,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentsRequest {
-    String name;
+    String text;
     Long petitionsId;
 }

@@ -1,20 +1,19 @@
 package com.example.hakaton.service;
 
+import com.example.hakaton.model.Category;
 import com.example.hakaton.model.request.CategoryRequest;
-import com.example.hakaton.model.request.UsersRequest;
 import com.example.hakaton.model.response.CategoryResponse;
-import com.example.hakaton.model.response.UsersResponse;
 
 import java.util.List;
 
 public interface CategoryService {
-    CategoryResponse create(CategoryRequest request);
+    void create(Category category);
 
-    CategoryResponse update(CategoryRequest request, Long id);
+    void update(Category category);
 
-    CategoryResponse findById(Long id);
+    Category findById(Long id);
 
-    List<CategoryResponse> findList();
+    List<Category> findAll();
 
     void delete(Long id);
 }

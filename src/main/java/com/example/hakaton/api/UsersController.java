@@ -1,53 +1,57 @@
 package com.example.hakaton.api;
 
+import com.example.hakaton.model.Petition;
+import com.example.hakaton.model.User;
 import com.example.hakaton.model.request.CommentsRequest;
 import com.example.hakaton.model.request.UsersRequest;
 import com.example.hakaton.model.response.CommentsResponse;
 import com.example.hakaton.model.response.UsersResponse;
+import com.example.hakaton.service.PetitionsService;
 import com.example.hakaton.service.UsersService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/users")
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@Controller
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UsersController {
-    UsersService usersService;
+    private final UsersService usersService;
+    private final PetitionsService petitionsService;
 
-    @PostMapping("/")
-    public ResponseEntity<UsersResponse> create(@Valid @RequestBody UsersRequest request) {
-        UsersResponse response = usersService.create(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "auth";
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<UsersResponse> update(@Valid @RequestBody UsersRequest request, @PathVariable Long id) {
-        UsersResponse response = usersService.update(request, id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<UsersResponse> findById(@PathVariable Long id) {
-        UsersResponse response = usersService.findById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping("/registration")
+    public String register(Model model) {
+        model.addAttribute("user" , new User());
+        return "registration";
     }
 
-    @GetMapping("/list")
-    @ResponseStatus(HttpStatus.OK)
-    public List<UsersResponse> findList() {
-        return usersService.findList();
+    @GetMapping("/profile")
+    public String profile(Model model){
+        User user = usersService.findById(usersService.getAuthorizedUserId());
+        model.addAttribute("petitions", petitionsService.findMyPetitions());
+        model.addAttribute("user", user);
+        return "myprofile";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        usersService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PostMapping("/registration")
+    public String register(@ModelAttribute User user, RedirectAttributes redirectAttributes, @RequestParam(value = "file", required = false) MultipartFile file) {
+        usersService.create(user, file);
+        return "redirect:/users/login";
     }
 
 }

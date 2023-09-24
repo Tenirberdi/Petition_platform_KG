@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>ГИГ</title>
+
+    <link th:href="@{/assets/images/logo.png}" rel="icon">
+
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo-woox-travel.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/owl.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/animate.css}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+</head>
+
+<body>
+
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a href="/petitions" class="logo">
+                        <img th:src="@{/assets/images/logo.png}" alt="">
+                    </a>
+                    <ul class="nav">
+                        <li><a href="/petitions">Главная</a></li>
+                        <li><a href="/users/profile">Профиль</a></li>
+                        <li><a href="/petitions/addPetition">Создать петицию</a></li>
+                        <li><a href="/users/login"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" id="mainIconPathAttribute" fill="#ffffff"></path> </svg></a></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="reservation-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="/users/editProfile" name="gs" th:object="${user}" enctype="multipart/form-data" method="post" role="search">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>Форма <em>редактирования профиля</em></h4>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <fieldset>
+                                        <label for="Name" class="form-label">Фамилия</label>
+                                        <input th:field="*{lastName}" type="text" name="Name" class="Name" placeholder="Асанов" autocomplete="on" required th:value="${user.getLastName()}">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <fieldset>
+                                        <label for="Name" class="form-label">Имя</label>
+                                        <input th:field="*{firstName}" type="text" name="Name" class="Name" placeholder="Асан" autocomplete="on" required th:value="${user.getFirstName()}">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <fieldset>
+                                        <label for="Name" class="form-label">Отчество</label>
+                                        <input th:field="*{patrName}" type="text" name="Name" class="Name" placeholder="Асанович" autocomplete="on" required th:value="${user.getPatrName()}">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <fieldset>
+                                        <label for="Name" class="form-label">Фото профиля</label>
+                                        <input type="file" name="file" class="form-control file-input" placeholder="Присвоение матчества" autocomplete="on">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <fieldset>
+                                        <label for="Name" class="form-label">Логин</label>
+                                        <input th:field="*{username}" type="text" name="Name" class="Name" placeholder="Логин" autocomplete="on" required th:value="${user.getPatrName()}">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <fieldset>
+                                        <label for="Name" class="form-label">Пароль</label>
+                                        <input th:field="*{password}" type="password" name="Name" class="Name" placeholder="Пароль" autocomplete="on" required th:value="${user.getPatrName()}">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-6">
+                                    <fieldset>
+                                        <button class="main-button">Редактировать</button>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mt-3">
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-6 text-center">
+                                    <fieldset>
+                                        <p>Уже есть аккаунт? <a href="auth.html">Авторизоваться</a></p>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p>г. Бишкек, п. М.Гвардия 32 Телефон доверия: +996 (312) 65-10-10, E-mail: ep@minjust.gov.kg
+                    <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+<script th:src="@{/assets/js/isotope.min.js}"></script>
+<script th:src="@{/assets/js/owl-carousel.js}"></script>
+<script th:src="@{/assets/js/wow.js}"></script>
+<script th:src="@{/assets/js/tabs.js}"></script>
+<script th:src="@{/assets/js/popup.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+
+<script>
+    $(".option").click(function(){
+        $(".option").removeClass("active");
+        $(this).addClass("active");
+    });
+</script>
+
+</body>
+
+</html>

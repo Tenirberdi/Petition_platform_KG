@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>ГИГ</title>
+
+    <link th:href="@{/assets/images/logo.png}" rel="icon">
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo-woox-travel.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/owl.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/animate.css}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+  </head>
+
+<body>
+
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a href="index.html" class="logo">
+                        <img th:src="@{/assets/images/logo.png}" alt="">
+                    </a>
+                    <ul class="nav">
+                      <li><a href="/petitions" class="active">Главная</a></li>
+                      <li><a href="/users/profile">Профиль</a></li>
+                      <li><a href="/petitions/addPetition">Создать петицию</a></li>
+                      <li><a href="/users/login"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" id="mainIconPathAttribute" fill="#ffffff"></path> </svg></a></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+
+  <div class="visit-country">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-lg-8">
+          <h3 class="mb-5">Законодательные инициативы граждан Кыргызской Республики</h3>
+          <div class="items">
+            <div class="row">
+
+              <div class="col-lg-12" th:each="petition : ${petitions}">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-5">
+                      <div class="image">
+                        <img th:if="${petition.getPhoto() != null}" th:src="'/images/' + @{${petition.getPhoto().getLocationPath()}}" alt="">
+                        <img th:unless="${petition.getPhoto() != null}" src="https://liftlearning.com/wp-content/uploads/2020/09/default-image.png" alt="">
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-sm-7">
+                      <div class="right-content">
+                        <h4 th:text="${petition.getTitle()}"></h4>
+                        <p th:text="${petition.getBody()}"></p>
+                      </div>
+                      <div class="main-button">
+                        <a th:href="'/petitions/' + ${petition.getId()}">Подробнее</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 text-center" th:each="category : ${categories}">
+          <h4 class="mb-4">Категории</h4>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="category-button">
+                  <a href="#" th:text="${category.getName()}"></a>
+                </div>
+              </div>
+          <div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <p>г. Бишкек, п. М.Гвардия 32 Телефон доверия: +996 (312) 65-10-10, E-mail: ep@minjust.gov.kg</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+  <script th:src="@{/assets/js/isotope.min.js}"></script>
+  <script th:src="@{/assets/js/owl-carousel.js}"></script>
+  <script th:src="@{/assets/js/wow.js}"></script>
+  <script th:src="@{/assets/js/tabs.js}"></script>
+  <script th:src="@{/assets/js/popup.js}"></script>
+  <script th:src="@{/assets/js/custom.js}"></script>
+
+  <script>
+    function bannerSwitcher() {
+      next = $('.sec-1-input').filter(':checked').next('.sec-1-input');
+      if (next.length) next.prop('checked', true);
+      else $('.sec-1-input').first().prop('checked', true);
+    }
+
+    var bannerTimer = setInterval(bannerSwitcher, 5000);
+
+    $('nav .controls label').click(function() {
+      clearInterval(bannerTimer);
+      bannerTimer = setInterval(bannerSwitcher, 5000)
+    });
+  </script>
+
+  </body>
+
+</html>

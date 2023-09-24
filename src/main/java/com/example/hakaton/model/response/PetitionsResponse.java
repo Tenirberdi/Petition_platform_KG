@@ -1,13 +1,10 @@
 package com.example.hakaton.model.response;
 
-import com.example.hakaton.entity.Category;
-import com.example.hakaton.entity.Petitions;
-import com.example.hakaton.entity.Users;
+import com.example.hakaton.entity.CategoryEntity;
+import com.example.hakaton.entity.PetitionEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,9 +15,9 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PetitionsResponse {
     String name;
-    String zagolovok;
-    String telo;
-    Category category;
+    String title;
+    String body;
+    CategoryEntity categoryEntity;
 
-    List<Petitions> systemPartId;
+    List<PetitionEntity> systemPartId;
 }

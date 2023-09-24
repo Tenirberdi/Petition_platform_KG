@@ -12,12 +12,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Comments {
+@Table(name = "comments")
+public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String name;
-    @ManyToOne(fetch = FetchType.EAGER)
+    String text;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "petitions_id")
-    Petitions petitions;
+    PetitionEntity petitionEntity;
 }
