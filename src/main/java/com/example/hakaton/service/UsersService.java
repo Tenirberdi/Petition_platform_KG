@@ -1,22 +1,18 @@
 package com.example.hakaton.service;
 
-import com.example.hakaton.model.Petition;
 import com.example.hakaton.model.User;
-import com.example.hakaton.model.request.UsersRequest;
-import com.example.hakaton.model.response.UsersResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface UsersService {
     void create(User user, MultipartFile photo);
+    void createUser(User user, MultipartFile photo);
 
-    void updateUser(User user, MultipartFile file);
-
-    void update(User user, Long id);
+    void update(User user, MultipartFile file);
 
     User findById(Long id);
+    User getMyProfile();
 
     List<User> findList();
 

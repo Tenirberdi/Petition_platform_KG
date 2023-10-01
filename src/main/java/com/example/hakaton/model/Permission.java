@@ -15,5 +15,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Permission {
-    String permission;
+    String name;
+    String description;
 }

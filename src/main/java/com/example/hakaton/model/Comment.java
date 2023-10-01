@@ -18,4 +18,5 @@ public class Comment {
     Long id;
     String text;
     Petition petition;
+    User author;
 }

@@ -70,7 +70,7 @@
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-2 mx-auto">
-                                    <img th:if="${user.getProfilePhotoId() != null }" class="profile-photo w-100 h-100" th:src="'/images/' + @{${user.getProfilePhotoId().getLocationPath()}}" alt="">
+                                    <img th:if="${user.getProfilePhotoId() != null }"  th:src="@{${user.getProfilePhotoId().getLocationPath()}}" alt="">
                                 </div>
                                 <div class="col-lg-4"></div>
                             </div>
@@ -86,7 +86,9 @@
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
                                     <fieldset>
-                                        <a href="/users/editProfile"><button class="main-button">Редактировать профиль</button></a>
+                                        <div class="main-button">
+                                        <a th:href="'/users/editProfile'">Редактировать профиль</a>
+                                            <div/>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-4"></div>

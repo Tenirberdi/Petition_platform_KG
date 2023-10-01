@@ -15,5 +15,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role {
-    String role;
+    Long id;
+    String name;
+    String description;
 }

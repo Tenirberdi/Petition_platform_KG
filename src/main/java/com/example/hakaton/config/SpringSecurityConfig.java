@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -49,6 +50,11 @@ public class SpringSecurityConfig {
                 .antMatchers("/roles", "/sign-up/**", "/sign-in/**", "/error");
     }
 
+    @Bean
+    GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -57,9 +63,8 @@ public class SpringSecurityConfig {
                 .usersByUsernameQuery("select username, password, true as enabled "
                         + "from users "
                         + "where username = ?")
-                .authoritiesByUsernameQuery("select username, permission_id from roles_permissions rp" +
-                        " join roles r on r.name = rp.role_id " +
-                        "join users u on r.name = u.role_id where username = ?");
+                .authoritiesByUsernameQuery("select username, permission_id from roles_permissions rp " +
+                        "join users u on u.role_id = rp.role_id where u.username = ?");
     }
 
 }

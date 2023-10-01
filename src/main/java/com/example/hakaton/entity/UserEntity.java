@@ -30,17 +30,20 @@ public class UserEntity {
     Long id;
     @Column(name = "first_name")
     String firstName;
+    @Column(nullable = false, unique = true)
     String username;
+    @Column(nullable = false)
     String password;
     @Column(name = "last_name")
     String lastName;
     @Column(name = "patr_name")
     String patrName;
+    @Column(nullable = false, unique = true)
     long inn;
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     RoleEntity role;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "file_id")

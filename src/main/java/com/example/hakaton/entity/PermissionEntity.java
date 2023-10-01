@@ -19,4 +19,6 @@ import javax.persistence.Table;
 public class PermissionEntity {
     @Id
     private String name;
+    @Column(nullable = false)
+    private String description;
 }

@@ -89,7 +89,9 @@ public class Converter {
             return null;
         }
         return Role.builder()
-                .role(role.getName()).build();
+                .id(role.getId())
+                .name(role.getName())
+                .description(role.getDescription()).build();
     }
 
     public static RoleEntity toEntity(Role role) {
@@ -97,7 +99,9 @@ public class Converter {
             return null;
         }
         return RoleEntity.builder()
-                .name(role.getRole()).build();
+                .id(role.getId())
+                .name(role.getName())
+                .description(role.getDescription()).build();
     }
 
     public static Permission toModel(PermissionEntity permission) {
@@ -105,7 +109,8 @@ public class Converter {
             return null;
         }
         return Permission.builder()
-                .permission(permission.getName()).build();
+                .name(permission.getName())
+                .description(permission.getDescription()).build();
     }
 
     public static PermissionEntity toEntity(Permission permission) {
@@ -113,7 +118,8 @@ public class Converter {
             return null;
         }
         return PermissionEntity.builder()
-                .name(permission.getPermission()).build();
+                .name(permission.getName())
+                .description(permission.getDescription()).build();
     }
 
     public static Comment toModel(CommentEntity comment) {
@@ -123,7 +129,8 @@ public class Converter {
         return Comment.builder()
                 .id(comment.getId())
                 .text(comment.getText())
-                .petition(toModel(comment.getPetitionEntity())).build();
+                .petition(toModel(comment.getPetitionEntity()))
+                .author(toModel(comment.getAuthor())).build();
     }
 
     public static CommentEntity toEntity(Comment comment) {
@@ -133,7 +140,8 @@ public class Converter {
         return CommentEntity.builder()
                 .id(comment.getId())
                 .text(comment.getText())
-                .petitionEntity(toEntity(comment.getPetition())).build();
+                .petitionEntity(toEntity(comment.getPetition()))
+                .author(toEntity(comment.getAuthor())).build();
     }
 
     public static User toModel(UserEntity user) {

@@ -27,8 +27,8 @@ public class FileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "file_name")
+    @Column(name = "file_name", nullable = false)
     String fileName;
-    @Column(name = "location_path")
+    @Column(name = "location_path", nullable = false)
     String locationPath;
 }

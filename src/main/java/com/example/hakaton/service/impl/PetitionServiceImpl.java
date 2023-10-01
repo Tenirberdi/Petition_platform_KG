@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import static com.example.hakaton.Utils.Converter.*;
 import static com.example.hakaton.Utils.FileUtil.storePhoto;
+import static com.example.hakaton.Utils.FileUtil.updatePhoto;
 
 @Service
 public class PetitionServiceImpl implements PetitionsService {
@@ -39,13 +40,12 @@ public class PetitionServiceImpl implements PetitionsService {
 
     @Override
     @Transactional
-//    @PreAuthorize("hasAuthority('ROLE_petition.create')")
+    @PreAuthorize("hasAuthority('petition.create')")
     public Long createPetition(Petition petition, MultipartFile photo) {
         CategoryEntity categoryEntity = categoryRepository.findById(petition.getCategory().getId()).get();
         PetitionEntity petitionEntity = toEntity(petition);
-        if (photo != null && photo.getSize() == 0) {
-            UUID uuid= UUID.randomUUID();
-            String path = storePhoto(photo, uuid.toString());
+        if (photo != null && photo.getSize() != 0) {
+            String path = storePhoto(photo);
             FileEntity fileEntity = FileEntity.builder()
                     .fileName(photo.getOriginalFilename())
                     .locationPath(path).build();
@@ -58,7 +58,7 @@ public class PetitionServiceImpl implements PetitionsService {
     }
 
     @Override
-//    @PreAuthorize("hasAuthority('petition.update')")
+    @PreAuthorize("hasAuthority('petition.update')")
     public void updatePetition(Petition petition, MultipartFile photo) {
         if(petition.getId() != null) {
             PetitionEntity petitionEntity = petitionsRepository.findById(petition.getId())
@@ -68,13 +68,7 @@ public class PetitionServiceImpl implements PetitionsService {
             petitionEntity.setCategoryEntity(categoryRepository.findById(petition.getCategory().getId()).get());
 
             if (photo != null && photo.getSize() != 0) {
-                UUID uuid= UUID.randomUUID();
-                String path = storePhoto(photo, uuid.toString());
-                FileEntity fileEntity = FileEntity.builder()
-                        .fileName(photo.getOriginalFilename())
-                        .locationPath(path).build();
-
-                petitionEntity.setPhoto(fileEntity);
+                updatePhoto(photo, petition.getPhoto());
             }
 
             petitionsRepository.save(petitionEntity);
@@ -82,7 +76,7 @@ public class PetitionServiceImpl implements PetitionsService {
     }
 
     @Override
-//    @PreAuthorize("hasAuthority('petition.delete')")
+    @PreAuthorize("hasAuthority('petition.delete')")
     public void deletePetition(long id) {
         petitionsRepository.deleteById(id);
     }
@@ -94,7 +88,6 @@ public class PetitionServiceImpl implements PetitionsService {
     }
 
     @Override
-//    @PreAuthorize("hasAuthority('petition.read')")
     public List<Petition> findPetitions() {
         List<Petition> petitions = new ArrayList<>();
         petitionsRepository.findAll().stream().map(Converter::toModel).forEach(petitions::add);
@@ -103,10 +96,11 @@ public class PetitionServiceImpl implements PetitionsService {
     }
 
     @Override
-//    @PreAuthorize("hasAuthority('petition.read')")
+    @PreAuthorize("hasAuthority('petition.read')")
     public List<Petition> findMyPetitions() {
         List<Petition> petitions = new ArrayList<>();
-        petitionsRepository.findMyPetitions(usersService.getAuthorizedUserId()).stream().map(Converter::toModel).forEach(petitions::add);
+        petitionsRepository.findMyPetitions(usersService.getAuthorizedUserId())
+                .stream().map(Converter::toModel).forEach(petitions::add);
 
         return petitions;
     }
@@ -118,6 +112,7 @@ public class PetitionServiceImpl implements PetitionsService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('petition.vote')")
     public void vote(Long id) {
         petitionsRepository.vote(id, usersService.getAuthorizedUserId());
     }

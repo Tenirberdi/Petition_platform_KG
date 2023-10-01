@@ -17,8 +17,12 @@ public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(nullable = false)
     String text;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "petitions_id")
+    @JoinColumn(name = "petitions_id", nullable = false)
     PetitionEntity petitionEntity;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id", nullable = false)
+    UserEntity author;
 }

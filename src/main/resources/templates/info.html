@@ -103,11 +103,11 @@
       <h3 th:text="${petition.getTitle()}"></h3>
       <div class="col-lg-6 align-self-center">
         <div class="left-image">
-          <img th:if="${petition.getPhoto() != null}" th:src="'/images/' + @{${petition.getPhoto().getLocationPath()}}" alt="">
+          <img th:if="${petition.getPhoto() != null}" th:src="@{${petition.getPhoto().getLocationPath()}}" alt="">
 
         </div>
         <br>
-        <span>Автор: <a th:text="${petition.getAuthor().getUsername()}" href="#"></a></span>
+        <span>Автор: <a th:text="${petition.getAuthor().getLastName()} + ' ' + ${petition.getAuthor().getFirstName()} + ' ' + ${petition.getAuthor().getPatrName()}" href="#"></a></span>
 
         <br>
         <br>

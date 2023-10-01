@@ -6,7 +6,9 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,18 +22,20 @@ public class PetitionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(nullable = false)
     String title;
+    @Column(nullable = false, columnDefinition="TEXT")
     String body;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     CategoryEntity categoryEntity;
-    @Column(name = "created_at", updatable = false )
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", updatable = false, nullable = false)
+    LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
     FileEntity photo;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     UserEntity author;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -39,7 +43,7 @@ public class PetitionEntity {
             joinColumns = @JoinColumn(name = "petition_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    List<UserEntity> systemPart = new ArrayList<>();
+    Set<UserEntity> systemPart = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {

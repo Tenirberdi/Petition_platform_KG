@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ГИГ</title>
+
+    <link th:href="@{/assets/images/logo.png}" rel="icon">
+    <link rel="stylesheet" th:href="@{/assets/css/auth-styles.css}">
+</head>
+<body>
+<div class="wrapper">
+    <h2>Авторизация</h2>
+    <form th:action="@{/users/login}" method="post">
+        <div class="input-box">
+            <input type="text" id="username" name="username" placeholder="Логин" required>
+        </div>
+
+        <div class="input-box">
+            <input id="password" name="password" type="password" placeholder="Пароль" required>
+        </div>
+        <div class="input-box button">
+            <input type="Submit" value="Войти">
+        </div>
+        <div class="text">
+            <h3><a href="/users/registration">Зарегистрироваться</a></h3>
+        </div>
+    </form>
+</div>
+</body>
+</html>
