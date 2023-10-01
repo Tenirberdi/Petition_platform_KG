@@ -38,6 +38,16 @@
     footer {
       flex: 0 0 auto;
     }
+    .truncate {
+      padding: 10px;
+    }
+    .truncate p {
+      margin: 0;
+      -webkit-line-clamp: 3;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   </style>
 <body>
 
@@ -93,7 +103,7 @@
                       </div>
                     </div>
                     <div class="col-lg-8 col-sm-7">
-                      <div class="right-content">
+                      <div class="right-content truncate">
                         <h4 th:text="${petition.getTitle()}"></h4>
                         <p th:text="${petition.getBody()}"></p>
                       </div>

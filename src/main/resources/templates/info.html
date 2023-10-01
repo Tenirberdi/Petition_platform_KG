@@ -111,10 +111,10 @@
   <div class="container">
     <div class="row">
       <h3 th:text="${petition.getTitle()}"></h3>
-      <div class="col-lg-6 align-self-center">
+      <div class="col-lg-6">
+        <br>
         <div class="left-image">
           <img th:if="${petition.getPhoto() != null}" th:src="@{${petition.getPhoto().getLocationPath()}}" alt="">
-
         </div>
         <br>
         <span>Автор: <a th:text="${petition.getAuthor().getLastName()} + ' ' + ${petition.getAuthor().getFirstName()} + ' ' + ${petition.getAuthor().getPatrName()}" href="#"></a></span>
@@ -128,6 +128,7 @@
           </a>
         </div>
       </div>
+
       <div class="col-lg-6">
         <div class="section-heading">
           <br>
