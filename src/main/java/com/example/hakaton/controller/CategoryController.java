@@ -1,18 +1,4 @@
-package com.example.hakaton.api;
-
-import com.example.hakaton.model.request.CategoryRequest;
-import com.example.hakaton.model.response.CategoryResponse;
-import com.example.hakaton.service.CategoryService;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
+package com.example.hakaton.controller;
 
 //@RestController
 //@RequestMapping("/api/category")

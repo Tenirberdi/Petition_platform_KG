@@ -1,4 +1,4 @@
-package com.example.hakaton.api;
+package com.example.hakaton.controller;
 
 import com.example.hakaton.model.User;
 import com.example.hakaton.service.PetitionsService;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/users")
@@ -45,9 +44,9 @@ public class UsersController {
     }
 
     @PostMapping(value =  "/editProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String editProfile(@ModelAttribute User user, RedirectAttributes redirectAttributes, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public String editProfile(@ModelAttribute User user, @RequestParam(value = "file", required = false) MultipartFile file) {
         user.setId(usersService.getAuthorizedUserId());
-        usersService.update(user, file);
+        usersService.updateProfile(user, file);
         return "redirect:/users/profile";
     }
 

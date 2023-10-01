@@ -11,6 +11,8 @@ import com.example.hakaton.repository.PetitionsRepository;
 import com.example.hakaton.repository.UsersRepisotory;
 import com.example.hakaton.service.PetitionsService;
 import com.example.hakaton.service.UsersService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.example.hakaton.Utils.Converter.*;
@@ -25,19 +28,12 @@ import static com.example.hakaton.Utils.FileUtil.storePhoto;
 import static com.example.hakaton.Utils.FileUtil.updatePhoto;
 
 @Service
+@RequiredArgsConstructor
 public class PetitionServiceImpl implements PetitionsService {
     private final PetitionsRepository petitionsRepository;
     private final UsersRepisotory usersRepisotory;
     private final CategoryRepository categoryRepository;
     private final UsersService usersService;
-
-    public PetitionServiceImpl(PetitionsRepository petitionsRepository, UsersRepisotory usersRepisotory, CategoryRepository categoryRepository, UsersService usersService) {
-        this.petitionsRepository = petitionsRepository;
-        this.usersRepisotory = usersRepisotory;
-        this.categoryRepository = categoryRepository;
-        this.usersService = usersService;
-    }
-
     @Override
     @Transactional
     @PreAuthorize("hasAuthority('petition.create')")
@@ -68,10 +64,48 @@ public class PetitionServiceImpl implements PetitionsService {
             petitionEntity.setCategoryEntity(categoryRepository.findById(petition.getCategory().getId()).get());
 
             if (photo != null && photo.getSize() != 0) {
-                updatePhoto(photo, petition.getPhoto());
+                if(petitionEntity.getPhoto() != null ){
+                    updatePhoto(photo, toModel(petitionEntity.getPhoto()));
+                } else {
+                    String path = storePhoto(photo);
+                    FileEntity fileEntity = FileEntity.builder()
+                            .fileName(photo.getOriginalFilename())
+                            .locationPath(path).build();
+                    petitionEntity.setPhoto(fileEntity);
+                }
+
             }
 
             petitionsRepository.save(petitionEntity);
+        }
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public void updateOwnPetition(Petition petition, MultipartFile photo) {
+        if(petition.getId() != null) {
+            PetitionEntity petitionEntity = petitionsRepository.findById(petition.getId())
+                    .orElseThrow(() -> new NotFoundException("Petition not found with id: " + petition.getId()));
+            if (Objects.equals(petitionEntity.getAuthor().getId(), usersService.getAuthorizedUserId())) {
+                petitionEntity.setTitle(petition.getTitle());
+                petitionEntity.setBody(petition.getBody());
+                petitionEntity.setCategoryEntity(categoryRepository.findById(petition.getCategory().getId()).get());
+
+                if (photo != null && photo.getSize() != 0) {
+                    if(petitionEntity.getPhoto() != null ){
+                        updatePhoto(photo, toModel(petitionEntity.getPhoto()));
+                    } else {
+                        String path = storePhoto(photo);
+                        FileEntity fileEntity = FileEntity.builder()
+                                .fileName(photo.getOriginalFilename())
+                                .locationPath(path).build();
+                        petitionEntity.setPhoto(fileEntity);
+                    }
+
+                }
+
+                petitionsRepository.save(petitionEntity);
+            }
         }
     }
 
@@ -88,9 +122,9 @@ public class PetitionServiceImpl implements PetitionsService {
     }
 
     @Override
-    public List<Petition> findPetitions() {
+    public List<Petition> findPetitions(Pageable pageable) {
         List<Petition> petitions = new ArrayList<>();
-        petitionsRepository.findAll().stream().map(Converter::toModel).forEach(petitions::add);
+        petitionsRepository.findAll(pageable).stream().map(Converter::toModel).forEach(petitions::add);
 
         return petitions;
     }

@@ -70,8 +70,7 @@ public class Converter {
         }
         return Category.builder()
                 .id(category.getId())
-                .name(category.getName())
-                .photo(toModel(category.getIcon())).build();
+                .name(category.getName()).build();
     }
 
     public static CategoryEntity toEntity(Category category) {
@@ -80,8 +79,7 @@ public class Converter {
         }
         return CategoryEntity.builder()
                 .id(category.getId())
-                .name(category.getName())
-                .icon(toEntity(category.getPhoto())).build();
+                .name(category.getName()).build();
     }
 
     public static Role toModel(RoleEntity role) {

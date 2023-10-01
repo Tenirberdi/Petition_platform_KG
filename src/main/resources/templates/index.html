@@ -118,11 +118,11 @@
           </div>
         </div>
 
-        <div class="col-lg-4 text-center" th:each="category : ${categories}">
+        <div class="col-lg-4 text-center" >
           <h4 class="mb-4">Категории</h4>
             <div class="row">
               <div class="col-lg-12">
-                <div class="category-button">
+                <div class="category-button" th:each="category : ${categories}">
                   <a href="#" th:text="${category.getName()}"></a>
                 </div>
               </div>

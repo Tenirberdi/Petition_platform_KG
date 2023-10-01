@@ -122,9 +122,9 @@
         <br>
         <br>
         <span th:text="'Дата: ' + ${petition.getCreatedAt()}"></span>
-        <div class="main-button">
+        <div th:if="${currentUser.getId()} == ${petition.getAuthor().getId()}" class="main-button">
           <a th:href="'/petitions/editPetition/' + ${petition.getId()}">
-            Edit<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="IconChangeColor" height="35" width="35"><path fill="blue" fill-rule="evenodd" d="M17.586 2a2 2 0 0 1 2.828 0L22 3.586a2 2 0 0 1 0 2.828L20.414 8 16 3.586 17.586 2zm-3 3-5 5A2 2 0 0 0 9 11.414V13a2 2 0 0 0 2 2h1.586A2 2 0 0 0 14 14.414l5-5L14.586 5z" clip-rule="evenodd" id="mainIconPathAttribute" filter="url(#shadow)"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14H5a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h14a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2h-4" id="mainIconPathAttribute" fill="blue"></path><filter id="shadow"><feDropShadow id="shadowValue" stdDeviation=".5" dx="0" dy="0" flood-color="black"></feDropShadow></filter><filter id="shadow"><feDropShadow id="shadowValue" stdDeviation=".5" dx="0" dy="0" flood-color="black"></feDropShadow></filter></svg>
+            Редактировать<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="IconChangeColor" height="35" width="35"><path fill="blue" fill-rule="evenodd" d="M17.586 2a2 2 0 0 1 2.828 0L22 3.586a2 2 0 0 1 0 2.828L20.414 8 16 3.586 17.586 2zm-3 3-5 5A2 2 0 0 0 9 11.414V13a2 2 0 0 0 2 2h1.586A2 2 0 0 0 14 14.414l5-5L14.586 5z" clip-rule="evenodd" id="mainIconPathAttribute" filter="url(#shadow)"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14H5a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h14a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2h-4" id="mainIconPathAttribute" fill="blue"></path><filter id="shadow"><feDropShadow id="shadowValue" stdDeviation=".5" dx="0" dy="0" flood-color="black"></feDropShadow></filter><filter id="shadow"><feDropShadow id="shadowValue" stdDeviation=".5" dx="0" dy="0" flood-color="black"></feDropShadow></filter></svg>
           </a>
         </div>
       </div>
@@ -169,18 +169,19 @@
           <div class="col-md-12">
 
             <div class="media reservation-form2">
-              <form id="reservation-form2" name="gs" method="submit" role="search" action="#">
+              <form id="reservation-form2" th:object="${newComment}" name="gs" method="post" role="search" action="/comments">
                 <div class="row">
 
                   <div class="col-lg-12">
                     <div class="row">
                       <div class="col-lg-1">
 
-                        <img class="mr-3 rounded-circle" alt="Bootstrap Media Preview" src="https://i.imgur.com/stD0Q19.jpg" />
-
+                        <img th:if="${currentUser.getProfilePhotoId() != null}" class="mr-3 rounded-circle" alt="Bootstrap Media Preview" th:src="@{${currentUser.getProfilePhotoId().getLocationPath()}}" />
+                        <img th:unless="${currentUser.getProfilePhotoId() != null}" src="https://liftlearning.com/wp-content/uploads/2020/09/default-image.png" alt="">
                       </div>
                       <div class="col-lg-6">
-                        <input type="text" name="Name" class="Name" placeholder="Комментарий" autocomplete="on" required>
+                        <input type="text" th:field="*{text}" class="Name" placeholder="Комментарий" autocomplete="on" required>
+                        <input type="hidden" name="petition.id" th:value="${petition.id}">
                       </div>
                       <div class="col-lg-3">
 
@@ -191,46 +192,19 @@
                 </div>
               </form>
               <br>
-              <img class="mr-3 rounded-circle" alt="Bootstrap Media Preview" src="https://i.imgur.com/stD0Q19.jpg" />
-              <div class="media-body">
-                <div class="row">
-                  <div class="col-8 d-flex">
-                    <h5>Maria Smantha</h5>
-                    <span>- 2 hours ago</span>
-                  </div>
-                  <div class="col-4">
-                    <div class="pull-right reply">
-                      <a href="#"><span><i class="fa fa-reply"></i> reply</span></a>
-                    </div>
-                  </div>
-                </div>
-                It is a long established fact that a reader will be distracted by the readable content of a page.
-
-                <div class="media mt-4">
-                  <a class="pr-3" href="#"><img class="rounded-circle" alt="Bootstrap Media Another Preview" src="https://i.imgur.com/xELPaag.jpg" /></a>
+                <div class="media mt-4" th:each="comment : ${comments}">
+                  <a class="pr-3" href="#"><img th:if="${comment.getAuthor().getProfilePhotoId() != null}" class="rounded-circle" alt="Bootstrap Media Another Preview" th:src="@{${comment.getAuthor().getProfilePhotoId().getLocationPath()}}" /></a>
+                  <a class="pr-3" href="#"><img th:unless="${comment.getAuthor().getProfilePhotoId() != null}" src="https://liftlearning.com/wp-content/uploads/2020/09/default-image.png" alt=""></a>
                   <div class="media-body">
                     <div class="row">
                       <div class="col-12 d-flex">
-                        <h5>Simona Disa</h5>
-                        <span>- 3 hours ago</span>
+                        <h5 th:text="${comment.getAuthor().getFirstName()} + ' ' + ${comment.getAuthor().getLastName()} + ' ' + ${comment.getAuthor().getPatrName()}"></h5>
                       </div>
                     </div>
-                    letters, as opposed to using 'Content here, content here', making it look like readable English.
+                    <div th:text="${comment.getText()}"></div>
                   </div>
                 </div>
 
-                <div class="media mt-3">
-                  <a class="pr-3" href="#"><img class="rounded-circle" alt="Bootstrap Media Another Preview" src="https://i.imgur.com/nAcoHRf.jpg" /></a>
-                  <div class="media-body">
-                    <div class="row">
-                      <div class="col-12 d-flex">
-                        <h5>John Smith</h5>
-                        <span>- 4 hours ago</span>
-                      </div>
-                    </div>
-                    the majority have suffered alteration in some form, by injected humour, or randomised words.
-                  </div>
-                </div>
               </div>
             </div>
           </div>

@@ -11,6 +11,8 @@ public interface UsersService {
 
     void update(User user, MultipartFile file);
 
+    void updateProfile(User user, MultipartFile file);
+
     User findById(Long id);
     User getMyProfile();
 

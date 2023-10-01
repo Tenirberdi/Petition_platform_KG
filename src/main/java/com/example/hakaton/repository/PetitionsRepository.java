@@ -1,7 +1,8 @@
 package com.example.hakaton.repository;
 
 import com.example.hakaton.entity.PetitionEntity;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,6 @@ public interface PetitionsRepository extends JpaRepository <PetitionEntity, Long
 
     @Query(value = "SELECT * FROM public.petitions where author_id = ?1", nativeQuery = true)
     List<PetitionEntity> findMyPetitions(Long id);
+
+    Page<PetitionEntity> findAll(Pageable pageable);
 }

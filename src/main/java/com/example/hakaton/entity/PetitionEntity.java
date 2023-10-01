@@ -2,6 +2,7 @@ package com.example.hakaton.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class PetitionEntity {
     @JoinColumn(name = "category_id", nullable = false)
     CategoryEntity categoryEntity;
     @Column(name = "created_at", updatable = false, nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")

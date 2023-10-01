@@ -28,7 +28,4 @@ public class CategoryEntity {
     Long id;
     @Column(nullable = false)
     String name;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "icon_id", nullable = false)
-    FileEntity icon;
 }

@@ -1,34 +1,24 @@
-package com.example.hakaton.api;
+package com.example.hakaton.controller;
 
-import com.example.hakaton.model.Category;
+import com.example.hakaton.model.Comment;
 import com.example.hakaton.model.Petition;
-import com.example.hakaton.model.request.CommentsRequest;
-import com.example.hakaton.model.response.CommentsResponse;
 import com.example.hakaton.service.CategoryService;
+import com.example.hakaton.service.CommentsService;
 import com.example.hakaton.service.PetitionsService;
-import com.example.hakaton.service.impl.PetitionServiceImpl;
-import lombok.AccessLevel;
+import com.example.hakaton.service.UsersService;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/petitions")
@@ -36,6 +26,8 @@ import java.util.List;
 public class PetitionsController {
     private final PetitionsService petitionsService;
     private final CategoryService categoryService;
+    private final UsersService usersService;
+    private final CommentsService commentsService;
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String create(@ModelAttribute Petition petition, RedirectAttributes redirectAttributes, @RequestParam(value = "file", required = false) MultipartFile file) {
         try {
@@ -43,7 +35,6 @@ public class PetitionsController {
             return "redirect:/petitions/";
         } catch (Exception e) {
             throw e;
-//            return "error";
         }
     }
 
@@ -61,8 +52,11 @@ public class PetitionsController {
     }
 
     @GetMapping
-    public String getMainPage(Model model) {
-        model.addAttribute("petitions", petitionsService.findPetitions());
+    public String getMainPage(Model model, Integer page, Integer size) {
+        model.addAttribute("petitions", petitionsService.findPetitions(PageRequest.of(
+                page != null ? page : 0,
+                size != null ? size : 4
+        )));
         model.addAttribute("categories" , categoryService.findAll());
         return "index";
     }
@@ -70,23 +64,26 @@ public class PetitionsController {
     @GetMapping("/{id}")
     public String getDetailedInfo(@PathVariable Long id, Model model) {
         Petition petition = petitionsService.findPetitionById(id);
-        model.addAttribute("petition",petition);
+        model.addAttribute("petition", petition);
         model.addAttribute("votes", petitionsService.getPetitionVotes(id));
+        model.addAttribute("currentUser", usersService.getMyProfile());
+        model.addAttribute("comments", commentsService.findAllByPetitionId(id));
+        model.addAttribute("newComment", new Comment());
         return "info";
     }
 
     @GetMapping("/editPetition/{id}")
-    public String editPetition(@PathVariable Long id, Model model) {
-        Petition petition = petitionsService.findPetitionById(id);
-        model.addAttribute("petition",petition);
+    public String editMyPetition(@PathVariable Long id, Model model) {
+        model.addAttribute("petition", petitionsService.findPetitionById(id));
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("currentUserId", usersService.getAuthorizedUserId());
         return "edit-petition";
     }
 
     @PostMapping(value =  "/editPetition/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String editPetition(@PathVariable Long id, @ModelAttribute Petition petition, RedirectAttributes redirectAttributes, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public String editMyPetition(@PathVariable Long id, @ModelAttribute Petition petition, @RequestParam(value = "file", required = false) MultipartFile file) {
         petition.setId(id);
-        petitionsService.updatePetition(petition, file);
+        petitionsService.updateOwnPetition(petition, file);
         return "redirect:/petitions/" + id;
     }
 }

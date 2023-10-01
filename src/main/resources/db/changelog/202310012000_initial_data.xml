@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="populate_db" author="admin">
+        <sql>
+            insert into public.permissions (name, description)
+            values ('user.read', 'Просмотр пользователей'),
+                   ('user.create', 'Создание пользователей'),
+                   ('user.update', 'Редактирование пользователей'),
+                   ('user.delete', 'Удаление пользователей'),
+                   ('petition.create', 'Создание петиций'),
+                   ('petition.read', 'Просмотр петиций'),
+                   ('petition.update', 'Редактирование петиций'),
+                   ('petition.delete', 'Удаление петиций'),
+                   ('petition.vote', 'Голосование за петицию'),
+                   ('comment.write', 'Писать комментарии');
+
+            insert into public.roles (name, description)
+            values ('Пользователь', 'Обычный пользователь'),
+                   ('Админ', 'Имеет полный доступ');
+
+            insert into public.roles_permissions (role_id, permission_id)
+            values (1, 'user.read'),
+                   (1, 'user.create'),
+                   (1, 'user.update'),
+                   (1, 'user.delete'),
+                   (1, 'petition.create'),
+                   (1, 'petition.read'),
+                   (1, 'petition.update'),
+                   (1, 'petition.delete'),
+                   (1, 'petition.vote'),
+                   (1, 'comment.write');
+
+            insert into public.categories (name)
+            values ('Природа'),
+                   ('Экономика'),
+                   ('Образование'),
+                   ('Быт'),
+                   ('Предпринимательство');
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

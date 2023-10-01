@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -19,4 +21,5 @@ public class Comment {
     String text;
     Petition petition;
     User author;
+    LocalDateTime createdAt;
 }

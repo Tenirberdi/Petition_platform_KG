@@ -26,6 +26,7 @@ import java.util.UUID;
 import static com.example.hakaton.Utils.Converter.toEntity;
 import static com.example.hakaton.Utils.Converter.toModel;
 import static com.example.hakaton.Utils.FileUtil.storePhoto;
+import static com.example.hakaton.Utils.FileUtil.updatePhoto;
 import static com.example.hakaton.model.Constants.USER_ROLE;
 
 
@@ -77,7 +78,35 @@ public class UsersServiceImpl implements UsersService {
         usersRepisotory.save(userEntity);
     }
 
+    @Override
+    @PreAuthorize("hasAuthority('user.update')")
+    public void updateProfile(User user, MultipartFile photo) {
+        if(user.getId() != null) {
+            UserEntity userEntity = usersRepisotory.findById(getAuthorizedUserId())
+                    .orElseThrow(() -> new NotFoundException("User not found with id: " + user.getId()));
+            userEntity.setLastName(user.getLastName());
+            userEntity.setFirstName(user.getFirstName());
+            userEntity.setPatrName(user.getPatrName());
+            userEntity.setUsername(user.getUsername());
 
+
+            if (photo != null && photo.getSize() != 0) {
+                if(userEntity.getProfilePhoto() != null) {
+                    updatePhoto(photo, toModel(userEntity.getProfilePhoto()));
+                } else {
+                    String path = storePhoto(photo);
+                    FileEntity fileEntity = FileEntity.builder()
+                            .fileName(photo.getOriginalFilename())
+                            .locationPath(path).build();
+
+                    userEntity.setProfilePhoto(fileEntity);
+                }
+
+            }
+
+            usersRepisotory.save(userEntity);
+        }
+    }
 
     @Override
     @PreAuthorize("hasAuthority('user.update')")
@@ -89,16 +118,19 @@ public class UsersServiceImpl implements UsersService {
             userEntity.setFirstName(user.getFirstName());
             userEntity.setPatrName(user.getPatrName());
             userEntity.setUsername(user.getUsername());
-            userEntity.setPassword(user.getPassword());
-
 
             if (photo != null && photo.getSize() != 0) {
-                String path = storePhoto(photo);
-                FileEntity fileEntity = FileEntity.builder()
-                        .fileName(photo.getOriginalFilename())
-                        .locationPath(path).build();
+                if(userEntity.getProfilePhoto() != null) {
+                    updatePhoto(photo, toModel(userEntity.getProfilePhoto()));
+                } else {
+                    String path = storePhoto(photo);
+                    FileEntity fileEntity = FileEntity.builder()
+                            .fileName(photo.getOriginalFilename())
+                            .locationPath(path).build();
 
-                userEntity.setProfilePhoto(fileEntity);
+                    userEntity.setProfilePhoto(fileEntity);
+                }
+
             }
 
             usersRepisotory.save(userEntity);
