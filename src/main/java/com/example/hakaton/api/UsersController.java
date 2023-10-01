@@ -36,6 +36,21 @@ public class UsersController {
         return "myprofile";
     }
 
+    @GetMapping("/editProfile")
+    public String editProfile( Model model) {
+        User user = usersService.findById(usersService.getAuthorizedUserId());
+        model.addAttribute("user",user);
+//        model.addAttribute("categories", categoryService.findAll());
+        return "edit-profile";
+    }
+
+    @PostMapping(value =  "/editProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String editProfile(@ModelAttribute User user, RedirectAttributes redirectAttributes, @RequestParam(value = "file", required = false) MultipartFile file) {
+        user.setId(usersService.getAuthorizedUserId());
+        usersService.update(user, file);
+        return "redirect:/users/profile";
+    }
+
     @PostMapping("/registration")
     public String register(@ModelAttribute User user, @RequestParam(value = "file", required = false) MultipartFile file) {
         usersService.createUser(user, file);
