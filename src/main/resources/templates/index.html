@@ -20,7 +20,25 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 
   </head>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
 
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #content {
+      flex: 1 0 auto;
+    }
+
+    footer {
+      flex: 0 0 auto;
+    }
+  </style>
 <body>
 
   <div id="js-preloader" class="js-preloader">
@@ -39,7 +57,7 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <a href="index.html" class="logo">
+                    <a href="/petitions" class="logo">
                         <img th:src="@{/assets/images/logo.png}" alt="">
                     </a>
                     <ul class="nav">
@@ -57,10 +75,9 @@
     </div>
   </header>
 
-  <div class="visit-country">
+  <div class="visit-country" id="content">
     <div class="container">
       <div class="row">
-
         <div class="col-lg-8">
           <h3 class="mb-5">Законодательные инициативы граждан Кыргызской Республики</h3>
           <div class="items">
@@ -87,7 +104,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -100,22 +116,21 @@
                   <a href="#" th:text="${category.getName()}"></a>
                 </div>
               </div>
-          <div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-    </div>
 
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <p>г. Бишкек, п. М.Гвардия 32 Телефон доверия: +996 (312) 65-10-10, E-mail: ep@minjust.gov.kg</p>
-          </div>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>г. Бишкек, п. М.Гвардия 32 Телефон доверия: +996 (312) 65-10-10, E-mail: ep@minjust.gov.kg</p>
         </div>
-      </div>
-    </footer>
+        </div>
+    </div>
+  </footer>
 
   <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
   <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>

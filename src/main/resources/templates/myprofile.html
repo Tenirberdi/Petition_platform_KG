@@ -23,7 +23,25 @@
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 
 </head>
+<style>
+    html,
+    body {
+        height: 100%;
+    }
 
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #content {
+        flex: 1 0 auto;
+    }
+
+    footer {
+        flex: 0 0 auto;
+    }
+</style>
 <body>
 
 <div id="js-preloader" class="js-preloader">
@@ -42,7 +60,7 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <a href="index.html" class="logo">
+                    <a href="/petitions" class="logo">
                         <img th:src="@{/assets/images/logo.png}" alt="">
                     </a>
                     <ul class="nav">
@@ -60,7 +78,7 @@
     </div>
 </header>
 
-<div class="reservation-form">
+<div class="reservation-form" id="content">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -70,26 +88,24 @@
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-2 mx-auto">
-                                    <img th:if="${user.getProfilePhotoId() != null }"  th:src="@{${user.getProfilePhotoId().getLocationPath()}}" alt="">
+                                    <img style="border-radius: 100px" th:if="${user.getProfilePhotoId() != null }"  th:src="@{${user.getProfilePhotoId().getLocationPath()}}" alt="">
                                 </div>
                                 <div class="col-lg-4"></div>
                             </div>
                         </div>
 
-                        <div class="col-lg-12 text-center">
+                        <div class="col-lg-12 mt-3 text-center">
                             <h4 class="mb-2" th:text="${user.getLastName()} + ' ' + ${user.getFirstName()} + ' ' + ${user.getPatrName()}" ></h4>
                             <p>ИНН: <a href="auth.html" th:text="${user.getInn()}"></a></p>
                         </div>
 
-                        <div class="col-lg-12 mt-3">
+                        <div class="col-lg-12 mt-3 text-center">
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
-                                    <fieldset>
-                                        <div class="main-button">
+                                    <div class="main-button">
                                         <a th:href="'/users/editProfile'">Редактировать профиль</a>
-                                            <div/>
-                                    </fieldset>
+                                    </div>
                                 </div>
                                 <div class="col-lg-4"></div>
                             </div>
@@ -140,13 +156,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>г. Бишкек, п. М.Гвардия 32 Телефон доверия: +996 (312) 65-10-10, E-mail: ep@minjust.gov.kg
-                    <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a></p>
+                <p>г. Бишкек, п. М.Гвардия 32 Телефон доверия: +996 (312) 65-10-10, E-mail: ep@minjust.gov.kg</p>
             </div>
         </div>
     </div>
 </footer>
-
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
 
