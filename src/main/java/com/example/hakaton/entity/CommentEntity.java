@@ -25,8 +25,8 @@ public class CommentEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "petitions_id", nullable = false)
-    PetitionEntity petitionEntity;
+    @JoinColumn(name = "tenders_id", nullable = false)
+    TenderEntity tenderEntity;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false)
     UserEntity author;

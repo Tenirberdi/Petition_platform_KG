@@ -6,9 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "petitions")
-public class PetitionEntity {
+public class TenderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -41,8 +39,8 @@ public class PetitionEntity {
     UserEntity author;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "petitions_users",
-            joinColumns = @JoinColumn(name = "petition_id"),
+            name = "tenders_users",
+            joinColumns = @JoinColumn(name = "tender_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     Set<UserEntity> systemPart = new HashSet<>();

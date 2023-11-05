@@ -13,6 +13,7 @@
   <link th:href="@{/assets/images/logo.png}" rel="icon">
   <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
+  <link rel="stylesheet" th:href="@{/assets/css/style.css}">
   <link rel="stylesheet" th:href="@{/assets/css/fontawesome.css}">
   <link rel="stylesheet" th:href="@{/assets/css/templatemo-woox-travel.css}">
   <link rel="stylesheet" th:href="@{/assets/css/owl.css}">
@@ -115,13 +116,13 @@
     <div class="row">
       <div class="col-12">
         <nav class="main-nav">
-          <a href="/petitions" class="logo">
+          <a href="/tenders" class="logo">
             <img th:src="@{/assets/images/logo.png}" alt="">
           </a>
           <ul class="nav">
-            <li><a href="/petitions">Главная</a></li>
+            <li><a href="/tenders">Главная</a></li>
             <li><a href="/users/profile">Профиль</a></li>
-            <li><a href="/petitions/addPetition">Создать петицию</a></li>
+            <li><a href="/tenders/addTender">Создать тендер</a></li>
             <li><a href="/users/login"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" id="mainIconPathAttribute" fill="#ffffff"></path> </svg></a></li>
           </ul>
           <a class='menu-trigger'>
@@ -136,20 +137,20 @@
 <div class="more-about" id="content">
   <div class="container">
     <div class="row">
-      <h3 th:text="${petition.getTitle()}"></h3>
+      <h3 th:text="${tender.getTitle()}"></h3>
       <div class="col-lg-6">
         <br>
         <div class="left-image">
-          <img th:if="${petition.getPhoto() != null}" th:src="@{${petition.getPhoto().getLocationPath()}}" alt="">
+          <img th:if="${tender.getPhoto() != null}" th:src="@{${tender.getPhoto().getLocationPath()}}" alt="">
         </div>
         <br>
-        <span>Автор: <a th:text="${petition.getAuthor().getLastName()} + ' ' + ${petition.getAuthor().getFirstName()} + ' ' + ${petition.getAuthor().getPatrName()}" href="#"></a></span>
+        <span>Автор: <a th:text="${tender.getAuthor().getLastName()} + ' ' + ${tender.getAuthor().getFirstName()} + ' ' + ${tender.getAuthor().getPatrName()}" href="#"></a></span>
 
         <br>
         <br>
-        <span th:text="'Дата: ' + ${petition.getCreatedAt()}"></span>
-        <div th:if="${currentUser.getId()} == ${petition.getAuthor().getId()}" class="main-button">
-          <a th:href="'/petitions/editPetition/' + ${petition.getId()}">
+        <span th:text="'Дата: ' + ${tender.getCreatedAt()}"></span>
+        <div th:if="${currentUser.getId()} == ${tender.getAuthor().getId()}" class="main-button">
+          <a th:href="'/tenders/editTender/' + ${tender.getId()}">
             Редактировать<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="IconChangeColor" height="35" width="35"><path fill="blue" fill-rule="evenodd" d="M17.586 2a2 2 0 0 1 2.828 0L22 3.586a2 2 0 0 1 0 2.828L20.414 8 16 3.586 17.586 2zm-3 3-5 5A2 2 0 0 0 9 11.414V13a2 2 0 0 0 2 2h1.586A2 2 0 0 0 14 14.414l5-5L14.586 5z" clip-rule="evenodd" id="mainIconPathAttribute" filter="url(#shadow)"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14H5a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h14a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2h-4" id="mainIconPathAttribute" fill="blue"></path><filter id="shadow"><feDropShadow id="shadowValue" stdDeviation=".5" dx="0" dy="0" flood-color="black"></feDropShadow></filter><filter id="shadow"><feDropShadow id="shadowValue" stdDeviation=".5" dx="0" dy="0" flood-color="black"></feDropShadow></filter></svg>
           </a>
         </div>
@@ -167,13 +168,13 @@
                 </svg></h4>
                 <br>
                 <div class="main-button no-mt">
-                  <a th:href="'/petitions/vote/' + ${petition.getId()}">Подписаться
+                  <a th:href="'/tenders/vote/' + ${tender.getId()}">Подписаться
                   </a>
                 </div>
               </div>
             </div>
           </div>
-          <p th:text="${petition.getBody()}"></p>
+          <p th:text="${tender.getBody()}"></p>
         </div>
       </div>
     </div>
@@ -200,7 +201,7 @@
                       </div>
                       <div class="col-lg-6 p-2">
                         <input type="text" th:field="*{text}" class="Name" placeholder="Комментарий" autocomplete="on" required>
-                        <input type="hidden" name="petition.id" th:value="${petition.id}">
+                        <input type="hidden" name="tender.id" th:value="${tender.id}">
                       </div>
                       <div class="col-lg-3 p-2 main-button">
                         <button>Добавить комментарий</button>

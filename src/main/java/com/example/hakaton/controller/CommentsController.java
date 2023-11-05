@@ -15,6 +15,6 @@ public class CommentsController {
     @PostMapping()
     public String editMyPetition(@ModelAttribute Comment comment) {
         commentsService.create(comment);
-        return "redirect:/petitions/" + comment.getPetition().getId();
+        return "redirect:/tenders/" + comment.getTender().getId();
     }
 }

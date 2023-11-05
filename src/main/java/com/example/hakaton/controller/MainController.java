@@ -10,6 +10,6 @@ public class MainController {
 
     @GetMapping
     public String redirectToMainPage() {
-        return "redirect:/petitions";
+        return "redirect:/tenders";
     }
 }

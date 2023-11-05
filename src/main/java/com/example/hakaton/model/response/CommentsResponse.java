@@ -1,6 +1,6 @@
 package com.example.hakaton.model.response;
 
-import com.example.hakaton.entity.PetitionEntity;
+import com.example.hakaton.entity.TenderEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,5 +12,5 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentsResponse {
     String text;
-    PetitionEntity petitionEntity;
+    TenderEntity tenderEntity;
 }

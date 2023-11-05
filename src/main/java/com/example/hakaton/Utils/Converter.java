@@ -4,23 +4,23 @@ import com.example.hakaton.entity.CategoryEntity;
 import com.example.hakaton.entity.CommentEntity;
 import com.example.hakaton.entity.FileEntity;
 import com.example.hakaton.entity.PermissionEntity;
-import com.example.hakaton.entity.PetitionEntity;
+import com.example.hakaton.entity.TenderEntity;
 import com.example.hakaton.entity.RoleEntity;
 import com.example.hakaton.entity.UserEntity;
 import com.example.hakaton.model.Category;
 import com.example.hakaton.model.Comment;
 import com.example.hakaton.model.File;
 import com.example.hakaton.model.Permission;
-import com.example.hakaton.model.Petition;
+import com.example.hakaton.model.Tender;
 import com.example.hakaton.model.Role;
 import com.example.hakaton.model.User;
 
 public class Converter {
-    public static Petition toModel(PetitionEntity petitionEntity) {
+    public static Tender toModel(TenderEntity petitionEntity) {
         if (petitionEntity == null) {
             return null;
         }
-        return Petition.builder()
+        return Tender.builder()
                 .id(petitionEntity.getId())
                 .title(petitionEntity.getTitle())
                 .body(petitionEntity.getBody())
@@ -30,11 +30,11 @@ public class Converter {
                 .photo(toModel(petitionEntity.getPhoto())).build();
     }
 
-    public static PetitionEntity toEntity(Petition petition) {
+    public static TenderEntity toEntity(Tender petition) {
         if (petition == null) {
             return null;
         }
-        return PetitionEntity.builder()
+        return TenderEntity.builder()
                 .id(petition.getId())
                 .title(petition.getTitle())
                 .body(petition.getBody())
@@ -127,7 +127,7 @@ public class Converter {
         return Comment.builder()
                 .id(comment.getId())
                 .text(comment.getText())
-                .petition(toModel(comment.getPetitionEntity()))
+                .tender(toModel(comment.getTenderEntity()))
                 .author(toModel(comment.getAuthor())).build();
     }
 
@@ -138,7 +138,7 @@ public class Converter {
         return CommentEntity.builder()
                 .id(comment.getId())
                 .text(comment.getText())
-                .petitionEntity(toEntity(comment.getPetition()))
+                .tenderEntity(toEntity(comment.getTender()))
                 .author(toEntity(comment.getAuthor())).build();
     }
 

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class Comment {
     Long id;
     String text;
-    Petition petition;
+    Tender tender;
     User author;
     LocalDateTime createdAt;
 }

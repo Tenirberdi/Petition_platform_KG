@@ -38,7 +38,7 @@ CREATE TABLE comments (
                                  created_at timestamp without time zone NOT NULL,
                                  text character varying(255) NOT NULL,
                                  author_id bigint NOT NULL,
-                                 petitions_id bigint NOT NULL
+                                 tenders_id bigint NOT NULL
 );
 
 
@@ -112,10 +112,10 @@ CREATE TABLE permissions (
 ALTER TABLE permissions OWNER TO postgres;
 
 --
--- Name: petitions; Type: TABLE; Schema: public; Owner: postgres
+-- Name: tenders; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE petitions (
+CREATE TABLE tenders (
                                   id bigint NOT NULL,
                                   body text NOT NULL,
                                   created_at timestamp without time zone NOT NULL,
@@ -126,13 +126,13 @@ CREATE TABLE petitions (
 );
 
 
-ALTER TABLE petitions OWNER TO postgres;
+ALTER TABLE tenders OWNER TO postgres;
 
 --
--- Name: petitions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: tenders_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE petitions_id_seq
+CREATE SEQUENCE tenders_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -140,26 +140,26 @@ CREATE SEQUENCE petitions_id_seq
     CACHE 1;
 
 
-ALTER TABLE petitions_id_seq OWNER TO postgres;
+ALTER TABLE tenders_id_seq OWNER TO postgres;
 
 --
--- Name: petitions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: tenders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE petitions_id_seq OWNED BY petitions.id;
+ALTER SEQUENCE tenders_id_seq OWNED BY tenders.id;
 
 
 --
--- Name: petitions_users; Type: TABLE; Schema: public; Owner: postgres
+-- Name: tenders_users; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE petitions_users (
-                                        petition_id bigint NOT NULL,
+CREATE TABLE tenders_users (
+                                        tender_id bigint NOT NULL,
                                         user_id bigint NOT NULL
 );
 
 
-ALTER TABLE petitions_users OWNER TO postgres;
+ALTER TABLE tenders_users OWNER TO postgres;
 
 --
 -- Name: roles; Type: TABLE; Schema: public; Owner: postgres
@@ -270,10 +270,10 @@ ALTER TABLE ONLY files ALTER COLUMN id SET DEFAULT nextval('files_id_seq'::regcl
 
 
 --
--- Name: petitions id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: tenders id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions ALTER COLUMN id SET DEFAULT nextval('petitions_id_seq'::regclass);
+ALTER TABLE ONLY tenders ALTER COLUMN id SET DEFAULT nextval('tenders_id_seq'::regclass);
 
 
 --
@@ -323,19 +323,19 @@ ALTER TABLE ONLY permissions
 
 
 --
--- Name: petitions petitions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenders tenders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions
-    ADD CONSTRAINT petitions_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY tenders
+    ADD CONSTRAINT tenders_pkey PRIMARY KEY (id);
 
 
 --
--- Name: petitions_users petitions_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenders_users tenders_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions_users
-    ADD CONSTRAINT petitions_users_pkey PRIMARY KEY (petition_id, user_id);
+ALTER TABLE ONLY tenders_users
+    ADD CONSTRAINT tenders_users_pkey PRIMARY KEY (tender_id, user_id);
 
 
 --
@@ -379,42 +379,42 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: petitions fk15fr22sxbudshvsse1m53kvse; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenders fk15fr22sxbudshvsse1m53kvse; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions
+ALTER TABLE ONLY tenders
     ADD CONSTRAINT fk15fr22sxbudshvsse1m53kvse FOREIGN KEY (photo_id) REFERENCES files(id);
 
 
 --
--- Name: petitions_users fk5y8l69d1mxyyq1iyfxi386r8a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenders_users fk5y8l69d1mxyyq1iyfxi386r8a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions_users
+ALTER TABLE ONLY tenders_users
     ADD CONSTRAINT fk5y8l69d1mxyyq1iyfxi386r8a FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
--- Name: petitions_users fk6q48q305fhgr0n11idqkvi7ad; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenders_users fk6q48q305fhgr0n11idqkvi7ad; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions_users
-    ADD CONSTRAINT fk6q48q305fhgr0n11idqkvi7ad FOREIGN KEY (petition_id) REFERENCES petitions(id);
+ALTER TABLE ONLY tenders_users
+    ADD CONSTRAINT fk6q48q305fhgr0n11idqkvi7ad FOREIGN KEY (tender_id) REFERENCES tenders(id);
 
 
 --
--- Name: petitions fk8iqeno47tn02325mmlm8hf25v; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenders fk8iqeno47tn02325mmlm8hf25v; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions
+ALTER TABLE ONLY tenders
     ADD CONSTRAINT fk8iqeno47tn02325mmlm8hf25v FOREIGN KEY (author_id) REFERENCES users(id);
 
 
 --
--- Name: petitions fkbveuoyj33tdg5ssi75yw23pau; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenders fkbveuoyj33tdg5ssi75yw23pau; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY petitions
+ALTER TABLE ONLY tenders
     ADD CONSTRAINT fkbveuoyj33tdg5ssi75yw23pau FOREIGN KEY (category_id) REFERENCES categories(id);
 
 
@@ -447,7 +447,7 @@ ALTER TABLE ONLY comments
 --
 
 ALTER TABLE ONLY comments
-    ADD CONSTRAINT fknai02u78dcm8y0a6hntsesntd FOREIGN KEY (petitions_id) REFERENCES petitions(id);
+    ADD CONSTRAINT fknai02u78dcm8y0a6hntsesntd FOREIGN KEY (tenders_id) REFERENCES tenders(id);
 
 
 --

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KyrgyzTender</title>
+    <link th:href="@{/assets/images/logo.png}" rel="icon">
+
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo-woox-travel.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/owl.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/animate.css}">
+    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+</head>
+<body>
+<header>
+    <nav>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <a href="/tenders" class="logo">
+            <img th:src="@{/assets/images/logo.png}" alt="">
+        </a>
+        <ul class="nav-links">
+            <li><a href="/tenders">Тендеры</a></li>
+            <li><a href="/statistics">Аналитика</a></li>
+            <li><a href="/contacts">Контакты</a></li>
+            <li><a href="/history">История</a></li>
+            <li><a href="/auth">Вход</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="col-lg-12" th:each="tender : ${tenders}">
+        <div class="item">
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+                    <div class="image">
+                        <img th:if="${tender.getPhoto() != null}" th:src="@{${tender.getPhoto().getLocationPath()}}" alt="">
+                        <img th:unless="${tender.getPhoto() != null}" src="https://liftlearning.com/wp-content/uploads/2020/09/default-image.png" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-8 col-sm-7">
+                    <div class="right-content truncate">
+                        <h4 th:text="${tender.getTitle()}"></h4>
+                        <p th:text="${tender.getBody()}"></p>
+                    </div>
+                    <div class="main-button">
+                        <a th:href="'/tenders/' + ${tender.getId()}">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <table class="styled-table">
+        <thead>
+        <br>
+        <br>
+        <br>
+        <tr>
+            <h2>Закупка товара: Пленка полиэтиленовая B=1500мм L=100м s=110мкм рукав</h2>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <td>Начальная цена</td>
+            <td>98323282982938</td>
+        </tr>
+        <tr>
+            <td>Место поставки</td>
+            <td>Екатеринбург, Свердловская область</td>
+        </tr>
+        <tr>
+            <td>Окончание</td>
+            <td>14.11.2023 15:00</td>
+        </tr>
+        <tr>
+            <td>До окончания приёма заявок осталось</td>
+            <td>9
+                дн
+                19
+                ч
+                54
+                мин</td>
+        </tr>
+        <tr>
+            <td>Документация</td>
+            <td><a href="docx.html">Документ</a></td>
+        </tr>
+        <tr>
+            <td>Отрасль</td>
+            <td>Тара и упаковка
+                Полимерные, фторопластовые и другие пластиковые изделия технического назначения
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            Контактная информация
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Контактное лицо</td>
+            <td>Карандашова Татьяна Федоровна</td>
+        </tr>
+        <tr>
+            <td>Телефон</td>
+            <td>7-343-3110950-31127</td>
+        </tr>
+        <tr>
+            <td>Электронная почта</td>
+            <td>KarandashovaTF@udmw.ru</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            Победитель
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Заказчик</td>
+            <td>Цена</td>
+        </tr>
+        <tr>
+            <td>ООО "ЗМО" (ИНН: 6686009622)</td>
+            <td>20000 сом</td>
+        </tr>
+        <tr>
+            <td>Место производства</td>
+            <td>Место доставки</td>
+        </tr>
+        <tr>
+            <td>Полиграфия</td>
+            <td>Школа</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<footer class="footer">
+    <div class="container row">
+        <div class="footer-col">
+            <h4>company</h4>
+            <ul>
+                <li><a href="#">about us</a></li>
+                <li><a href="#">our services</a></li>
+                <li><a href="#">privacy policy</a></li>
+                <li><a href="#">visit website</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>get help</h4>
+            <ul>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">shipping</a></li>
+                <li><a href="#">returns</a></li>
+                <li><a href="#">order status</a></li>
+                <li><a href="#">payment options</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>online shop</h4>
+            <ul>
+                <li><a href="#">download</a></li>
+                <li><a href="#">changelog</a></li>
+                <li><a href="#">github</a></li>
+                <li><a href="#">all version</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>follow us</h4>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,9 +1,22 @@
 package com.example.hakaton.controller;
 
-//@RestController
-//@RequestMapping("/api/category")
-//@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-//@RequiredArgsConstructor
+import com.example.hakaton.model.request.CategoryRequest;
+import com.example.hakaton.model.response.CategoryResponse;
+import com.example.hakaton.service.CategoryService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/category")
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class CategoryController {
 //    CategoryService categoryService;
 //

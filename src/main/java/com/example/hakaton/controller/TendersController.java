@@ -1,10 +1,10 @@
 package com.example.hakaton.controller;
 
 import com.example.hakaton.model.Comment;
-import com.example.hakaton.model.Petition;
+import com.example.hakaton.model.Tender;
 import com.example.hakaton.service.CategoryService;
 import com.example.hakaton.service.CommentsService;
-import com.example.hakaton.service.PetitionsService;
+import com.example.hakaton.service.TendersService;
 import com.example.hakaton.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -21,39 +21,39 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/petitions")
+@RequestMapping("/tenders")
 @RequiredArgsConstructor
-public class PetitionsController {
-    private final PetitionsService petitionsService;
+public class TendersController {
+    private final TendersService tendersService;
     private final CategoryService categoryService;
     private final UsersService usersService;
     private final CommentsService commentsService;
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String create(@ModelAttribute Petition petition, RedirectAttributes redirectAttributes, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public String create(@ModelAttribute Tender tender, RedirectAttributes redirectAttributes, @RequestParam(value = "file", required = false) MultipartFile file) {
         try {
-            petitionsService.createPetition(petition, file);
-            return "redirect:/petitions/";
+            tendersService.createTender(tender, file);
+            return "redirect:/tenders/";
         } catch (Exception e) {
             throw e;
         }
     }
 
-    @GetMapping("/addPetition")
+    @GetMapping("/addTender")
     public String create(Model model) {
         model.addAttribute("categories" , categoryService.findAll());
-        model.addAttribute("petition" , new Petition());
-        return "create-pettion";
+        model.addAttribute("tender" , new Tender());
+        return "create-tender";
     }
 
     @GetMapping("/vote/{id}")
     public String create(Model model, @PathVariable Long id) {
-        petitionsService.vote(id);
-        return "redirect:/petitions/" + id;
+        tendersService.vote(id);
+        return "redirect:/tenders/" + id;
     }
 
     @GetMapping
     public String getMainPage(Model model, Integer page, Integer size) {
-        model.addAttribute("petitions", petitionsService.findPetitions(PageRequest.of(
+        model.addAttribute("tenders", tendersService.findTenders(PageRequest.of(
                 page != null ? page : 0,
                 size != null ? size : 4
         )));
@@ -63,27 +63,27 @@ public class PetitionsController {
 
     @GetMapping("/{id}")
     public String getDetailedInfo(@PathVariable Long id, Model model) {
-        Petition petition = petitionsService.findPetitionById(id);
-        model.addAttribute("petition", petition);
-        model.addAttribute("votes", petitionsService.getPetitionVotes(id));
+        Tender tender = tendersService.findTenderById(id);
+        model.addAttribute("tender", tender);
+        model.addAttribute("votes", tendersService.getTenderVotes(id));
         model.addAttribute("currentUser", usersService.getMyProfile());
-        model.addAttribute("comments", commentsService.findAllByPetitionId(id));
+        model.addAttribute("comments", commentsService.findAllByTenderId(id));
         model.addAttribute("newComment", new Comment());
         return "info";
     }
 
-    @GetMapping("/editPetition/{id}")
-    public String editMyPetition(@PathVariable Long id, Model model) {
-        model.addAttribute("petition", petitionsService.findPetitionById(id));
+    @GetMapping("/editTender/{id}")
+    public String editMyTender(@PathVariable Long id, Model model) {
+        model.addAttribute("tender", tendersService.findTenderById(id));
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("currentUserId", usersService.getAuthorizedUserId());
-        return "edit-petition";
+        return "edit-tender";
     }
 
-    @PostMapping(value =  "/editPetition/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String editMyPetition(@PathVariable Long id, @ModelAttribute Petition petition, @RequestParam(value = "file", required = false) MultipartFile file) {
-        petition.setId(id);
-        petitionsService.updateOwnPetition(petition, file);
-        return "redirect:/petitions/" + id;
+    @PostMapping(value =  "/editTender/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String editMyTender(@PathVariable Long id, @ModelAttribute Tender tender, @RequestParam(value = "file", required = false) MultipartFile file) {
+        tender.setId(id);
+        tendersService.updateOwnTender(tender, file);
+        return "redirect:/tenders/" + id;
     }
 }

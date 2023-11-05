@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface CommentsService {
     Comment create(Comment comment);
-    List<Comment> findAllByPetitionId(Long petitionId);
+    List<Comment> findAllByTenderId(Long tenderId);
 }

@@ -1,7 +1,7 @@
 package com.example.hakaton.controller;
 
 import com.example.hakaton.model.User;
-import com.example.hakaton.service.PetitionsService;
+import com.example.hakaton.service.TendersService;
 import com.example.hakaton.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class UsersController {
     private final UsersService usersService;
-    private final PetitionsService petitionsService;
+    private final TendersService tendersService;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -30,7 +30,7 @@ public class UsersController {
     @GetMapping("/profile")
     public String profile(Model model){
         User user = usersService.getMyProfile();
-        model.addAttribute("petitions", petitionsService.findMyPetitions());
+        model.addAttribute("tenders", tendersService.findMyTenders());
         model.addAttribute("user", user);
         return "myprofile";
     }
